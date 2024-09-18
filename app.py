@@ -126,6 +126,7 @@ if st.session_state.page == 'dashboard' and st.session_state.user_id:
         user_name = user_info[0] if user_info else "Freelancer"
 
         st.subheader(f"👋 Hello, {user_name}! Welcome to your dashboard.")
+        st.markdown("---")  # Horizontal line for separation
 
         # Tab layout for different sections
         tab_selection = st.selectbox("Select a tab:", ["Overview", "Available Jobs", "Applied Jobs"])
@@ -229,6 +230,7 @@ if st.session_state.page == 'dashboard' and st.session_state.user_id:
         user_name = user_info[0] if user_info else "Client"
         
         st.subheader(f"👋 Hello, {user_name}! Welcome to your dashboard.")
+        st.markdown("---")  # Horizontal line for separation
         
         # Tab layout for different sections
         tab_selection = st.selectbox("Select a tab:", ["Overview", "Post a Job", "Manage Jobs"])
@@ -251,16 +253,16 @@ if st.session_state.page == 'dashboard' and st.session_state.user_id:
         elif tab_selection == "Post a Job":
             st.subheader("📋 Post a New Job")
             job_title = st.text_input("Job Title")
-            job_description = st.text_area("Job Description")
+            # job_description = st.text_area("Job Description")
             job_budget = st.number_input("Job Budget ($)", min_value=0)
             post_job = st.button("Post Job 🚀")
 
             if post_job:
-                if job_title and job_description and job_budget:
+                if job_title and job_budget:
                     # Insert the job into the Jobs table
                     try:
-                        query = "INSERT INTO Jobs (title, description, budget, client_id, status) VALUES (%s, %s, %s, %s, %s)"
-                        cursor.execute(query, (job_title, job_description, job_budget, st.session_state.user_id, 'open'))
+                        query = "INSERT INTO Jobs (title, budget, client_id, status) VALUES (%s, %s, %s, %s)"
+                        cursor.execute(query, (job_title, job_budget, st.session_state.user_id, 'open'))
                         connection.commit()
                         st.success(f"✅ Job '{job_title}' posted successfully!")
                     except Exception as e:
