@@ -153,3 +153,37 @@ INSERT INTO Freelancer_Performance (freelancer_id, job_id, performance_rating) V
 (15, 17, 5);
 
 
+-- Create Skills Table
+CREATE TABLE Skills (
+    skill_id SERIAL PRIMARY KEY,
+    freelancer_id INT NOT NULL,
+    skill_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (freelancer_id) REFERENCES Users(user_id)
+);
+
+-- Insert sample records into Skills tablea
+INSERT INTO Skills (freelancer_id, skill_name) VALUES
+(1, 'Web Development'),
+(1, 'Graphic Design'),
+(3, 'Mobile App Development'),
+(5, 'Data Science'),
+(7, 'SEO'),
+(9, 'Video Editing');
+
+-- Create Job_History Table
+CREATE TABLE Job_History (
+    history_id SERIAL PRIMARY KEY,
+    job_id INT NOT NULL,
+    freelancer_id INT NOT NULL,
+    client_feedback TEXT,
+    rating INT CHECK (rating >= 1 AND rating <= 5),
+    FOREIGN KEY (job_id) REFERENCES Jobs(job_id),
+    FOREIGN KEY (freelancer_id) REFERENCES Users(user_id)
+);
+
+-- Insert sample records into Job_History table
+INSERT INTO Job_History (job_id, freelancer_id, client_feedback, rating) VALUES
+(2, 3, 'Great work on the mobile app!', 5),
+(8, 5, 'Excellent consultation.', 4),
+(15, 9, 'Fast and professional service.', 5),
+(17, 3, 'Good job on the digital marketing.', 4);
